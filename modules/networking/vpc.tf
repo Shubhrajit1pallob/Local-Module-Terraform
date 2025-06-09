@@ -15,4 +15,17 @@ resource "aws_subnet" "this" {
   tags = {
     Name = each.key
   }
+
+  lifecycle {
+    # This is the type of validation block that will ensure the subnet availability zones is valid.
+    precondition {
+      condition     = contains(data.aws_availability_zones.available.names, each.value.az)
+      error_message = <<-EOT
+      The provided avilability zone "${each.value.az}" for the subnet "${each.key}" is not valid.
+
+      Please choose from the available availability zones in the current region.
+      Available zones are: "[${join(", ", data.aws_availability_zones.available.names)}]"
+      EOT
+    }
+  }
 }

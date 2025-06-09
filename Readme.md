@@ -6,5 +6,5 @@
 2. Allows the users to provide configurations for multiple subnets.
     1. The user should be able to mark a subnet as public or private.
     2. The user should be able to provide CIDR blocks.
-    3. The user should be able to provide AWS AZ.
+    3. The user should be able to provide AWS AZ. Also we have to write a validation block for this seperately by using precondition in a lifecycle block. Added a Multiline error message for full details.
 Note: Lets put object variables instead of primitives.

@@ -11,6 +11,10 @@
 #   type = string
 # }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 variable "vpc_config" {
   type = object({
     cidr_block = string
