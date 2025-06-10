@@ -3,6 +3,10 @@ locals {
     # This will filter the subnets to only include those that are marked as public.
     for key, config in var.subnet_config : key => config if config.public
   }
+  private_subnets = {
+    # This will filter the subnets to only include those that are marked as private.
+    for key, config in var.subnet_config : key => config if config.public == false
+  }
 }
 
 resource "aws_vpc" "this" {
