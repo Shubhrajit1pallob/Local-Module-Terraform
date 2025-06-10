@@ -127,10 +127,6 @@ module "networking" {
   - Contains the Terraform code for creating the VPC, subnets, route tables, and internet gateway.
   - Includes lifecycle preconditions for validating availability zones.
 
-- main.tf:
-
-  - Calls the local module and passes the required input variables.
-
 - variables.tf:
 
   - Defines the input variables for the module.
@@ -139,9 +135,9 @@ module "networking" {
 
   - Specifies the outputs for the module.
 
-- shared_data.tf:
+- providers.tf:
 
-  - Contains shared local variables, such as project name and common tags.
+  - Contains the providers for the module.
 
 ## Validation
 
