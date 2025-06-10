@@ -33,6 +33,7 @@ variable "subnet_config" {
   type = map(object({
     cidr_block = string
     az         = string
+    public     = optional(bool, false) # Optional field to indicate if the subnet is public
   }))
 
   validation {

@@ -1,3 +1,10 @@
+locals {
+  public_subnets = {
+    # This will filter the subnets to only include those that are marked as public.
+    for key, config in var.subnet_config : key => config if config.public
+  }
+}
+
 resource "aws_vpc" "this" {
   cidr_block = var.vpc_config.cidr_block
 
@@ -28,4 +35,26 @@ resource "aws_subnet" "this" {
       EOT
     }
   }
+}
+
+resource "aws_internet_gateway" "this" {
+  count  = length(local.public_subnets) > 0 ? 1 : 0
+  vpc_id = aws_vpc.this.id
+}
+
+resource "aws_route_table" "public_rtb" {
+  count  = length(local.public_subnets) > 0 ? 1 : 0
+  vpc_id = aws_vpc.this.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.this[0].id
+  }
+}
+
+resource "aws_route_table_association" "public" {
+  for_each = local.public_subnets
+
+  subnet_id      = aws_subnet.this[each.key].id
+  route_table_id = aws_route_table.public_rtb[0].id
 }

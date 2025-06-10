@@ -16,6 +16,7 @@ module "vpc_networking" {
     subnet2 = {
       cidr_block = "10.0.1.0/24"
       az         = "us-east-1b"
+      public     = true
     }
   }
 }
