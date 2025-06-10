@@ -25,6 +25,7 @@ resource "aws_subnet" "this" {
 
   tags = {
     Name = each.key
+    Access = each.value.public ? "Public" : "Private"
   }
 
   lifecycle {
